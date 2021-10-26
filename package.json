@@ -1,0 +1,10 @@
+{
+    "name": "lineblocs-ts-sdk",
+    "version": "v0.0.1",
+    "dependencies": {
+        "@grpc/grpc-js": "^1.4.1",
+        "grpc-promise": "^1.4.0",
+        "uuid": "^8.3.2",
+        "websocket": "^1.0.34"
+    }
+}
