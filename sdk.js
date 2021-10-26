@@ -2,6 +2,7 @@ var client = require("./client.js");
 var utils = require("./utils.js");
 var Bridge = require("./models/bridge.js");
 var Channel = require("./models/channel.js");
+var Conference = require("./models/conference.js");
 
 
 function SDK(clientId) {
@@ -33,11 +34,24 @@ SDK.prototype.createCall = async function(params) {
    return Promise.resolve( channel);
 }
 
+SDK.prototype.createConference = async function(params) {
+   var rpc = client().createConference();
+   var resp = await rpc.sendMessage({
+            name: params.name
+   });
+    console.log("reply.. ", resp);
+   console.log("NEW BRIDGE ID=" + resp.bridge_id);
+   console.log("NEW CONF ID=" + resp.conf_id);
+   var conf  =new Conference( client(), resp.bridge_id, resp.conf_id );
+   utils.addStorage('conferences', conf);
+   return Promise.resolve( conf);
+}
+
+
+
 SDK.prototype.playRecording = function(flow, lineChannel, fileUrl) {
 }
 
-SDK.prototype.createConference = function(flow, name) {
-}
 SDK.prototype.getChannel = function(channelId) {
 
 }

@@ -1,6 +1,7 @@
 var mem = {
     bridges: [],
     channels: [],
-    playbacks: []
+    playbacks: [],
+    conferences: []
 };
 module.exports = mem;

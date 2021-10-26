@@ -1,5 +1,7 @@
 var WebSocketClient = require('websocket').client;
 var utils = require('./utils');
+var Channel = require('./models/channel');
+var grpcClient  = require('./client');
 
 var client = new WebSocketClient();
 
@@ -28,7 +30,7 @@ client.on('connect', function(connection) {
             }
           break;
           case "bridge_ChannelJoined":
-            var channel = new Channel( parsed.data.channel_id );
+            var channel = new Channel( grpcClient(), parsed.data.channel_id );
             var bridge = utils.lookupBridge( parsed.data.bridge_id );
             if ( bridge ) {
               bridge.emitter.emit('ChannelJoined', channel);
@@ -61,6 +63,12 @@ client.on('connect', function(connection) {
           break;
           case "playback_PlaybackFinished":
             var playback = utils.lookupPlayback( parsed.data.playback_id );
+            if ( playback ) {
+              playback.emitter.emit('Finished', playback)
+            }
+          break;
+          case "conference_ConfCreated":
+            var conf = utils.lookupPlayback( parsed.data.playback_id );
             if ( playback ) {
               playback.emitter.emit('Finished', playback)
             }

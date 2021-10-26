@@ -1,4 +1,6 @@
 var EventEmitter = require("events");
+var Playback = require("./playback");
+var utils =  require("../utils");
 function Bridge(client, clientId, bridgeId) {
     this.client = client;
     this.clientId = clientId;
@@ -13,6 +15,7 @@ function Bridge(client, clientId, bridgeId) {
 Bridge.prototype.addChannels = async function(chan1, chan2) {
     var rpc = this.client.bridge_addChannels();
     var reply =await rpc.sendMessage({
+        bridge_id: this.bridge_id,
         channel_id: [chan1.channel_id, chan2.channel_2],
         client_id: this.clientId
     });
@@ -23,20 +26,30 @@ Bridge.prototype.addChannels = async function(chan1, chan2) {
 Bridge.prototype.addChannel = async function(chan1) {
     var rpc = this.client.bridge_addChannel();
     var reply =await rpc.sendMessage({
+        bridge_id: this.bridge_id,
         channel_id: chan1.channel_id
     });
     return Promise.resolve();
 }
 
-Bridge.prototype.playTTS =  async function(text, gender, voice, language) {
+Bridge.prototype.playTTS =  async function(params) {
+    var gender = params['gender'] || "FEMALE";
+    var voice = params['voice'] || "en-US-Standard-C";
+    var language = params['language'] || "en-US";
+     var text= params['text'];
+
+     console.log("BRIDGE ID = " + this.bridge_id);
     var rpc = this.client.bridge_playTTS();
     var reply =await rpc.sendMessage({
-        text, 
-        gender, 
-        voice, 
+        bridge_id: this.bridge_id,
+        text,
+        gender,
+        voice,
         language
     });
-    return Promise.resolve();
+    var playback = new Playback( reply.playback_id );
+    utils.addStorage('playbacks', playback);
+    return Promise.resolve( playback );
 }
 
 Bridge.prototype.destroy =  async function() {

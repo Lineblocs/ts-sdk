@@ -106,6 +106,8 @@ message ConferenceRequest {
 }
 
 message ConferenceReply {
+    string conf_id = 1;
+    string bridge_id = 2;
 }
 
 message ChannelGetBridgeRequest {
@@ -187,6 +189,7 @@ message BridgeTTSRequest {
 	string gender = 2;
 	string voice = 3;
 	string language = 4;
+	string bridge_id = 5;
 }
 
 

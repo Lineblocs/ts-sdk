@@ -74,13 +74,28 @@ Channel.prototype.startFlow = async function (flowId) {
     });
     return Promise.resolve( playback );
 }
-Channel.prototype.resetDTMFListeners = function (flow, name, eventVars) {
+Channel.prototype.removeDTMFListeners = async function (flow, name, eventVars) {
+    var rpc = this.client.channel_removeDTMFListeners();
+    var reply =await rpc.sendMessage({
+        channel_id: this.channel_id
+    });
+    return Promise.resolve( );
 }
 
 Channel.prototype.stopRinging = async function () {
+    var rpc = this.client.channel_stopRinging();
+    var reply =await rpc.sendMessage({
+        channel_id: this.channel_id
+    });
+    return Promise.resolve( );
 };
 
 Channel.prototype.startRinging = async function () {
+    var rpc = this.client.channel_startRinging();
+    var reply =await rpc.sendMessage({
+        channel_id: this.channel_id
+    });
+    return Promise.resolve( );
 };
 		
 Channel.prototype.on = function (event, callback) {

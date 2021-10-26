@@ -32,6 +32,19 @@ function lookupPlayback( id ) {
     return result;
 }
 
+function lookupConference( id ) {
+    var result;
+    mem.conferences.forEach(conf => {
+        if ( conf.conf_id === id ) {
+            result = conf;
+            return;
+        } 
+    });
+    return result;
+}
+
+
+
 
 function addStorage(type, obj) {
     mem[ type ].push( obj );
