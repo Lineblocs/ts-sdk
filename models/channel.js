@@ -97,6 +97,14 @@ Channel.prototype.startRinging = async function () {
     });
     return Promise.resolve( );
 };
+
+Channel.prototype.hangup = async function () {
+    var rpc = this.client.channel_hangup();
+    var reply =await rpc.sendMessage({
+        channel_id: this.channel_id
+    });
+    return Promise.resolve( );
+};
 		
 Channel.prototype.on = function (event, callback) {
   this.emitter.on(event, callback);

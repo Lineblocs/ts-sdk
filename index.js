@@ -72,6 +72,11 @@ setImmediate(async () => {
             }
             console.log("channel joined..");
             var playback = await bridge.playTTS({text: "Second time..."});
+            playback.on('Finished', async function() {
+                console.log("second finished! hanging up now");
+                //await chan.hangup();
+                await bridge.destroy();
+            })
         });
 
     } catch ( err ) {

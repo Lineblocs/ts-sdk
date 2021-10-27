@@ -42,6 +42,7 @@ client.on('connect', function(connection) {
             if ( bridge ) {
               bridge.emitter.emit('ChannelLeft', channel)
             }
+          break;
           case "channel_ChannelStart":
             var channel = utils.lookupChannel( parsed.data.channel_id );
             if ( channel ) {
@@ -68,9 +69,9 @@ client.on('connect', function(connection) {
             }
           break;
           case "conference_ConfCreated":
-            var conf = utils.lookupPlayback( parsed.data.playback_id );
-            if ( playback ) {
-              playback.emitter.emit('Finished', playback)
+            var conf = utils.lookupConference( parsed.data.conf_id );
+            if ( conf ) {
+              conf.emitter.emit('ConfCreated', conf)
             }
           break;
         }

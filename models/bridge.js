@@ -53,6 +53,11 @@ Bridge.prototype.playTTS =  async function(params) {
 }
 
 Bridge.prototype.destroy =  async function() {
+    var rpc = this.client.bridge_destroy();
+    var reply =await rpc.sendMessage({
+        bridge_id: this.bridge_id
+    });
+    return Promise.resolve()
 }
 
 Bridge.prototype.on = function (event, callback) {
