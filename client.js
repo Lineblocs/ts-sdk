@@ -1,18 +1,10 @@
 const grpc = require("@grpc/grpc-js");
 const grpc_promise = require('grpc-promise');;
 var protoLoader = require("@grpc/proto-loader");
-const PROTO_PATH = "./lineblocs.proto";
+const PROTO_PATH = __dirname + "/lineblocs.proto";
 
 const options = {
-  /*
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-  */
-
-      keepCase: true,
+    keepCase: true,
     longs: String,
     enums: String,
     defaults: true,

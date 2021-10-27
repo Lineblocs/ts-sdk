@@ -1,4 +1,4 @@
-var SDK = require("../sdk");
+var SDK = require("../");
 var client = require("../client.js");
 var ws = require("../ws");
 var Channel = require("../models/channel");

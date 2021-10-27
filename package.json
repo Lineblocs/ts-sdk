@@ -1,11 +1,32 @@
 {
-    "name": "lineblocs-sdk",
-    "version": "v0.0.1",
-    "dependencies": {
-        "@grpc/grpc-js": "^1.4.1",
-        "grpc-promise": "^1.4.0",
-        "uuid": "^8.3.2",
-        "websocket": "^1.0.34",
-        "why-is-node-running": "^2.2.0"
-    }
+  "name": "lineblocs-sdk",
+  "version": "0.0.1",
+  "description": "SDK to access Lineblocs calls",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InfiniteT3ch/lineblocs-sdk.git"
+  },
+  "keywords": [
+    "lineblocs",
+    "sdk",
+    "calls",
+    "cpaas",
+    "ucaas"
+  ],
+  "dependencies": {
+    "@grpc/grpc-js": "^1.4.1",
+    "grpc-promise": "^1.4.0",
+    "uuid": "^8.3.2",
+    "websocket": "^1.0.34"
+  },
+  "author": "Nadir Hamid <matrix.nad@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/InfiniteT3ch/lineblocs-sdk/issues"
+  },
+  "homepage": "https://github.com/InfiniteT3ch/lineblocs-sdk#readme"
 }
