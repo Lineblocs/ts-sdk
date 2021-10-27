@@ -1,6 +1,6 @@
 {
   "name": "lineblocs-sdk",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "description": "SDK to access Lineblocs calls",
   "main": "index.js",
   "scripts": {

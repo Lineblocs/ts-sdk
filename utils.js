@@ -53,5 +53,6 @@ module.exports = {
     lookupBridge,
     lookupChannel,
     lookupPlayback,
+    lookupConference,
     addStorage
 }
