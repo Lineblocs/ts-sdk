@@ -2,8 +2,8 @@ var EventEmitter = require("events");
 const Playback = require("./playback.js");
 const utils = require("../utils");
 
-function Channel(client, id, callId) {
-    this.client = client;
+function Channel(sdk, id, callId) {
+    this.sdk = sdk;
     this.channel_id = id;
     this.call_id = callId;
     this.emitter = new EventEmitter();
@@ -24,7 +24,7 @@ Channel.prototype.playTTS =  async function(params) {
     var language = params['language'] || "en-US";
      var text= params['text'];
 
-    var rpc = this.client.channel_playTTS();
+    var rpc = this.sdk.client.channel_playTTS();
     var reply =await rpc.sendMessage({
         channel_id: this.channel_id,
         text,
@@ -32,7 +32,7 @@ Channel.prototype.playTTS =  async function(params) {
         voice,
         language
     });
-    var playback = new Playback( reply.playback_id );
+    var playback = new Playback( this.sdk, reply.playback_id );
     utils.addStorage('playbacks', playback);
     return Promise.resolve( playback );
 }
@@ -53,7 +53,7 @@ Channel.prototype.gotoFlowWidget = async function (flowId, name, eventVars) {
     var language = params['language'] || "en-US";
      var text= params['text'];
 
-    var rpc = this.client.channel_playTTS();
+    var rpc = this.sdk.client.channel_playTTS();
     var reply =await rpc.gotoFlowWidget({
         channel_id: this.channel_id,
         text,
@@ -61,13 +61,13 @@ Channel.prototype.gotoFlowWidget = async function (flowId, name, eventVars) {
         voice,
         language
     });
-    var playback = new Playback( reply.playback_id );
+    var playback = new Playback( this.sdk, reply.playback_id );
     utils.addStorage('playbacks', playback);
     return Promise.resolve( playback );
 }
 
 Channel.prototype.startFlow = async function (flowId) {
-    var rpc = this.client.channel_startFlow();
+    var rpc = this.sdk.client.channel_startFlow();
     var reply =await rpc.startFlow({
         channel_id: this.channel_id,
         flow_id: flowId
@@ -75,7 +75,7 @@ Channel.prototype.startFlow = async function (flowId) {
     return Promise.resolve( playback );
 }
 Channel.prototype.removeDTMFListeners = async function (flow, name, eventVars) {
-    var rpc = this.client.channel_removeDTMFListeners();
+    var rpc = this.sdk.client.channel_removeDTMFListeners();
     var reply =await rpc.sendMessage({
         channel_id: this.channel_id
     });
@@ -83,7 +83,7 @@ Channel.prototype.removeDTMFListeners = async function (flow, name, eventVars) {
 }
 
 Channel.prototype.stopRinging = async function () {
-    var rpc = this.client.channel_stopRinging();
+    var rpc = this.sdk.client.channel_stopRinging();
     var reply =await rpc.sendMessage({
         channel_id: this.channel_id
     });
@@ -91,7 +91,7 @@ Channel.prototype.stopRinging = async function () {
 };
 
 Channel.prototype.startRinging = async function () {
-    var rpc = this.client.channel_startRinging();
+    var rpc = this.sdk.client.channel_startRinging();
     var reply =await rpc.sendMessage({
         channel_id: this.channel_id
     });
@@ -99,7 +99,7 @@ Channel.prototype.startRinging = async function () {
 };
 
 Channel.prototype.hangup = async function () {
-    var rpc = this.client.channel_hangup();
+    var rpc = this.sdk.client.channel_hangup();
     var reply =await rpc.sendMessage({
         channel_id: this.channel_id
     });

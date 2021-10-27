@@ -1,8 +1,8 @@
 var EventEmitter = require("events");
 var Playback = require("./playback");
 var utils =  require("../utils");
-function Bridge(client, clientId, bridgeId) {
-    this.client = client;
+function Bridge(sdk, clientId, bridgeId) {
+    this.sdk = sdk;
     this.clientId = clientId;
 	this.automateLegAHangup= true;
 	this.automateLegBHangup= true;
@@ -13,7 +13,7 @@ function Bridge(client, clientId, bridgeId) {
 }
 
 Bridge.prototype.addChannels = async function(chan1, chan2) {
-    var rpc = this.client.bridge_addChannels();
+    var rpc = this.sdk.client.bridge_addChannels();
     var reply =await rpc.sendMessage({
         bridge_id: this.bridge_id,
         channel_id: [chan1.channel_id, chan2.channel_2],
@@ -24,7 +24,7 @@ Bridge.prototype.addChannels = async function(chan1, chan2) {
 
 
 Bridge.prototype.addChannel = async function(chan1) {
-    var rpc = this.client.bridge_addChannel();
+    var rpc = this.sdk.client.bridge_addChannel();
     var reply =await rpc.sendMessage({
         bridge_id: this.bridge_id,
         channel_id: chan1.channel_id
@@ -39,7 +39,7 @@ Bridge.prototype.playTTS =  async function(params) {
      var text= params['text'];
 
      console.log("BRIDGE ID = " + this.bridge_id);
-    var rpc = this.client.bridge_playTTS();
+    var rpc = this.sdk.client.bridge_playTTS();
     var reply =await rpc.sendMessage({
         bridge_id: this.bridge_id,
         text,
@@ -47,13 +47,13 @@ Bridge.prototype.playTTS =  async function(params) {
         voice,
         language
     });
-    var playback = new Playback( reply.playback_id );
+    var playback = new Playback( this.client, reply.playback_id );
     utils.addStorage('playbacks', playback);
     return Promise.resolve( playback );
 }
 
 Bridge.prototype.destroy =  async function() {
-    var rpc = this.client.bridge_destroy();
+    var rpc = this.sdk.client.bridge_destroy();
     var reply =await rpc.sendMessage({
         bridge_id: this.bridge_id
     });

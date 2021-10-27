@@ -1,8 +1,8 @@
 var EventEmitter = require("events");
 var Playback = require("./playback");
 var utils =  require("../utils");
-function Conference(client, bridgeId, confId) {
-    this.client = client;
+function Conference(sdk, bridgeId, confId) {
+    this.sdk = sdk;
     this.Conference = Conference;
     this.conf_id= confId;
     this.bridge_id= bridgeId;

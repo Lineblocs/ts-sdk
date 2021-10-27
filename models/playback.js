@@ -1,6 +1,7 @@
 var EventEmitter = require("events");
 
-function Playback(playbackId) {
+function Playback(sdk, playbackId) {
+    this.sdk = sdk;
     this.playback_id = playbackId;
     this.emitter = new EventEmitter();
 }

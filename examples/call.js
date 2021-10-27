@@ -1,19 +1,19 @@
-var SDK = require("./sdk");
-var client = require("./client.js");
-var ws = require("./ws");
-var Channel = require("./models/channel");
+var SDK = require("../sdk");
+var client = require("../client.js");
+var ws = require("../ws");
+var Channel = require("../models/channel");
 const uuid = require("uuid")
 setImmediate(async () => {
     try {
         var clientId = uuid.v4();
-        client({
+        var sdk = new SDK({
+            token: '',
+            secret: '',
             clientid: clientId,
             workspaceid: '1',
             userid: '1',
             domain: 'workspace.lineblocs.com'
         });
-        ws(clientId);
-        var sdk = new SDK(clientId);
         var bridge = await sdk.createBridge();
         console.log("BRIDGE ID = " + bridge.bridge_id);
         var chan = new Channel( 123 );
@@ -61,7 +61,9 @@ setImmediate(async () => {
                 console.log("removing DTMF listeners");
                 channel.removeDTMFListeners();
             });
-
+            channel.on('Ended', async function() {
+                console.log('call ended..');
+            })
         });
 
         var channelCount = 0;
@@ -72,6 +74,12 @@ setImmediate(async () => {
             }
             console.log("channel joined..");
             var playback = await bridge.playTTS({text: "Second time..."});
+            playback.on('Finished', async function() {
+                console.log("second finished! hanging up now");
+                //await chan.hangup();
+                await bridge.destroy();
+                await sdk.finish();
+            })
         });
 
     } catch ( err ) {
